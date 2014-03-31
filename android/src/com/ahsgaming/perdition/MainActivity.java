@@ -11,6 +11,6 @@ public class MainActivity extends AndroidApplication {
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new HelloApp(), config);
+		initialize(new ToPGame(), config);
 	}
 }
