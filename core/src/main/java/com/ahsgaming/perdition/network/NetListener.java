@@ -10,4 +10,6 @@ package com.ahsgaming.perdition.network;
 public interface NetListener {
     public void onConnected();
     public void onError(NetError netError);
+
+    void onPlayerUpdate(NetInterface netInterface);
 }

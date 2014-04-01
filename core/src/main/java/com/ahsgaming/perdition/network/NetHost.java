@@ -27,12 +27,15 @@ public class NetHost implements NetInterface {
     Listener currentListener;
     Array<NetListener> listeners;
 
-    HashMap<Connection, PlayerConfig> playerConfigs;
+    HashMap<Integer, PlayerConfig> playerMap;
+    HashMap<Integer, Connection> connectionMap;
+    PlayerConfig playerConfig;
 
     int nextPlayerId = 0;
 
-    public NetHost(ToPGame game) {
+    public NetHost(ToPGame game, PlayerConfig playerConfig) {
         this.game = game;
+        this.playerConfig = playerConfig;
 
         init();
     }
@@ -41,7 +44,9 @@ public class NetHost implements NetInterface {
         server = new Server();
         KryoCommon.register(server);
 
-        playerConfigs = new HashMap<Connection, PlayerConfig>();
+        playerMap = new HashMap<Integer, PlayerConfig>();
+        connectionMap = new HashMap<Integer, Connection>();
+
         listeners = new Array<NetListener>();
 
         broadcastServer = new Server();
@@ -64,6 +69,7 @@ public class NetHost implements NetInterface {
 
         currentListener = new ServerSetupListener(this);
         server.addListener(currentListener);
+        onConnected(null, playerConfig);
     }
 
     @Override
@@ -92,8 +98,8 @@ public class NetHost implements NetInterface {
     }
 
     public void onConnected(Connection conn, PlayerConfig playerConfig) {
-        if (playerConfigs.containsKey(conn)) {
-            playerConfigs.get(conn).set(playerConfig);
+        if (playerConfig.getId() > -1 && playerMap.containsKey(playerConfig.getId())) {
+            playerMap.get(playerConfig.getId()).set(playerConfig);
             return;
         }
 
@@ -103,14 +109,29 @@ public class NetHost implements NetInterface {
             ve.serverVersion = ToPGame.VERSION;
             conn.sendTCP(ve);
             onError(ve);
-        } else if (playerConfigs.values().size() >= MAX_PLAYERS) {
+        } else if (playerMap.values().size() >= MAX_PLAYERS) {
             KryoCommon.GameFullError ge = new KryoCommon.GameFullError();
             conn.sendTCP(ge);
             onError(ge);
         } else {
-            playerConfigs.put(conn, playerConfig);
-            conn.sendTCP(playerConfig);
+            Gdx.app.log(LOG, "Player connected...");
+            playerMap.put(playerConfig.getId(), playerConfig);
+            for (NetListener listener: listeners) {
+                listener.onPlayerUpdate(this);
+            }
+
+            if (conn != null) {
+                connectionMap.put(playerConfig.getId(), conn);
+                conn.sendTCP(playerConfig);
+                sendPlayerList(conn);
+            }
         }
+    }
+
+    public void sendPlayerList(Connection conn) {
+        KryoCommon.PlayerList playerList = new KryoCommon.PlayerList();
+        playerList.players = playerMap.values().toArray(new PlayerConfig[playerMap.size()]);
+        conn.sendTCP(playerList);
     }
 
     @Override
@@ -128,5 +149,20 @@ public class NetHost implements NetInterface {
     @Override
     public void removeListener(NetListener netListener) {
         listeners.removeValue(netListener, true);
+    }
+
+    @Override
+    public Array<PlayerConfig> getPlayerList() {
+        Array<PlayerConfig> players = new Array<PlayerConfig>();
+        for (PlayerConfig playerConfig: playerMap.values()) {
+            players.add(playerConfig);
+        }
+
+        return players;
+    }
+
+    @Override
+    public void setPlayerConfigs(PlayerConfig[] playerConfigs) {
+
     }
 }

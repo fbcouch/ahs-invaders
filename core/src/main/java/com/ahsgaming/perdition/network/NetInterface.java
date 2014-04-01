@@ -1,5 +1,7 @@
 package com.ahsgaming.perdition.network;
 
+import com.badlogic.gdx.utils.Array;
+
 /**
  * towers-of-perdition
  * (c) 2013 Jami Couch
@@ -17,4 +19,6 @@ public interface NetInterface {
     void onError(NetError error);
     void addListener(NetListener netListener);
     void removeListener(NetListener netListener);
+    Array<PlayerConfig> getPlayerList();
+    void setPlayerConfigs(PlayerConfig[] playerConfigs);
 }

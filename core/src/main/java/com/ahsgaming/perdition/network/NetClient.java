@@ -31,6 +31,8 @@ public class NetClient implements NetInterface {
     Listener currentListener;
     Array<NetListener> listeners;
 
+    Array<PlayerConfig> playerConfigs;
+
     public NetClient(ToPGame game, GameSetupConfig gameSetupConfig, PlayerConfig player) {
         this.game = game;
         gameConfig = gameSetupConfig;
@@ -113,5 +115,18 @@ public class NetClient implements NetInterface {
     @Override
     public void removeListener(NetListener netListener) {
         listeners.removeValue(netListener, true);
+    }
+
+    @Override
+    public Array<PlayerConfig> getPlayerList() {
+        return new Array<PlayerConfig>(playerConfigs);
+    }
+
+    @Override
+    public void setPlayerConfigs(PlayerConfig[] playerConfigs) {
+        this.playerConfigs = new Array<PlayerConfig>(playerConfigs);
+        for (NetListener listener: listeners) {
+            listener.onPlayerUpdate(this);
+        }
     }
 }

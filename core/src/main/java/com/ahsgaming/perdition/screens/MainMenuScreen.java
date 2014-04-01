@@ -3,6 +3,7 @@ package com.ahsgaming.perdition.screens;
 import com.ahsgaming.perdition.GameSetupConfig;
 import com.ahsgaming.perdition.ToPGame;
 import com.ahsgaming.perdition.network.NetHost;
+import com.ahsgaming.perdition.network.PlayerConfig;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -48,7 +49,7 @@ public class MainMenuScreen extends AbstractScreen {
                 Gdx.app.log(LOG, "Create Game clicked");
                 GameSetupConfig gameSetupConfig = new GameSetupConfig();
                 gameSetupConfig.isHost = true;
-                game.setGameSetupScreen(gameSetupConfig, new NetHost(game));
+                game.setGameSetupScreen(gameSetupConfig, new NetHost(game, new PlayerConfig(-1, "host-player", "warrior")));
             }
         });
 

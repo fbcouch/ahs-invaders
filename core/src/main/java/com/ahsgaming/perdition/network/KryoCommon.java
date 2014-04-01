@@ -19,6 +19,7 @@ public class KryoCommon {
         kryo.register(String.class);
         kryo.register(PlayerConfig.class);
         kryo.register(PlayerConfig[].class);
+        kryo.register(PlayerList.class);
         kryo.register(VersionError.class);
         kryo.register(GameFullError.class);
     }

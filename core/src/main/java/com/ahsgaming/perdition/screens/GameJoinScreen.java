@@ -28,6 +28,10 @@ public class GameJoinScreen extends AbstractScreen {
 
     Label lblError;
 
+    GameSetupConfig gameSetupConfig;
+
+    boolean connected = false;
+
     public GameJoinScreen(ToPGame game) {
         super(game);
     }
@@ -101,19 +105,36 @@ public class GameJoinScreen extends AbstractScreen {
         }.start();
     }
 
-    public void attemptConnection(GameSetupConfig config) {
+    @Override
+    public void render(float delta) {
+        super.render(delta);
+
+        if (connected) {
+            game.setGameSetupScreen(gameSetupConfig, client);
+        }
+    }
+
+    public void attemptConnection(final GameSetupConfig config) {
 
         client = new NetClient(game, config, new PlayerConfig(-1, "Test", "mage"));
         client.addListener(new NetListener() {
             @Override
             public void onConnected() {
                 Gdx.app.log(LOG, "Connected! We did it!");
+                client.removeListener(this);
+                gameSetupConfig = config;
+                connected = true;
             }
 
             @Override
             public void onError(NetError netError) {
                 Gdx.app.log(LOG, "An error occurred");
                 lblError.setText(netError.getMessage());
+            }
+
+            @Override
+            public void onPlayerUpdate(NetInterface netInterface) {
+
             }
         });
     }

@@ -26,6 +26,8 @@ public class SetupListener extends Listener {
 
     @Override
     public void received(Connection connection, Object o) {
-
+        if (o instanceof KryoCommon.PlayerList) {
+            netInterface.setPlayerConfigs(((KryoCommon.PlayerList)o).players);
+        }
     }
 }
