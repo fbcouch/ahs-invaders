@@ -11,7 +11,7 @@ public class DesktopLauncher {
         cfg.title = "Towers of Perdition | ahsgaming.com | (c) 2014 Jami Couch";
         cfg.useGL20 = true;
         cfg.width = 1200;     // TODO load from config?
-        cfg.height = 700;
+        cfg.height = 750;
         cfg.fullscreen = false;
         cfg.resizable = true;
 
