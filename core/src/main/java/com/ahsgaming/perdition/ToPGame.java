@@ -5,16 +5,23 @@ import com.ahsgaming.perdition.network.NetInterface;
 import com.ahsgaming.perdition.screens.GameJoinScreen;
 import com.ahsgaming.perdition.screens.GameSetupScreen;
 import com.ahsgaming.perdition.screens.MainMenuScreen;
+import com.ahsgaming.perdition.screens.Test3dScreen;
 import com.badlogic.gdx.Game;
 
 
 public class ToPGame extends Game {
+    public static boolean DEBUG_NOMENU = true;
 
     public final static String VERSION = "0.0.1";
 
 	@Override
 	public void create () {
-        setMainMenuScreen();
+
+        if (DEBUG_NOMENU) {
+            setScreen(new Test3dScreen(this));
+        } else {
+            setMainMenuScreen();
+        }
 	}
 
     public void setMainMenuScreen() {

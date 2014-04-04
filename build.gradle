@@ -8,7 +8,7 @@ allprojects {
 
     version = "1.0"
     ext.appName = "mygame"
-    ext.gdxVersion = "0.9.9" // Use "1.0-SNAPSHOT" for nightly build
+    ext.gdxVersion = "1.0-SNAPSHOT" //"0.9.9" // Use "1.0-SNAPSHOT" for nightly build
 
     repositories {
         mavenCentral()
