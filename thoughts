@@ -1,0 +1,27 @@
+# Towers of Perdition
+
+- Procedural map generation
+- Classes: Warrior, Mage, ...?
+- Alignment: Good-Neutral-Evil (bonuses for each?)
+- Hex-based map, use maze generator (add rooms?)
+- MOBs, items, drops, traps, etc
+
+First steps:
+- game setup screen
+	- only need one (public, public-with-password, private)
+	- for now, up to 4 players, no spectators
+	- character setup when joining, can change while in game
+	- ready/not ready
+	- 10 sec countdown when all ready
+- no more multi-resolution stuff (revert to all ~mdpi)
+- remove zoom
+- game doesn't scale with window --> sorry people with small monitors, but it needs to be this way
+- ui has linear filters
+
+MVP:
+- up to 4 people can join
+- 2 classes (warrior, mage)
+- basic map generator
+- 1 enemy type
+
+

@@ -6,13 +6,19 @@ buildscript {
 allprojects {
     apply plugin: 'idea'
 
-    version = "1.0"
-    ext.appName = "mygame"
-    ext.gdxVersion = "1.0-SNAPSHOT" //"0.9.9" // Use "1.0-SNAPSHOT" for nightly build
+    version = "0.1"
+    ext.appName = "towers-of-perdition"
+    ext.gdxVersion = "0.9.9" // Use "1.0-SNAPSHOT" for nightly build
+    ext.kryonetVersion = "2.21"
 
     repositories {
         mavenCentral()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+        maven {
+            url "http://clojars.org/repo"
+        }
         mavenLocal();
     }
 }
@@ -26,6 +32,7 @@ project(":core") {
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        compile "kryonet:kryonet-all:$kryonetVersion"
     }
 }
 
@@ -37,6 +44,22 @@ project(":desktop") {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    }
+
+    uploadArchives {
+        repositories {
+            flatDir {
+                dirs '../out/desktop'
+            }
+        }
+    }
+
+    jar {
+        baseName = appName
+        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+        manifest {
+            attributes 'Implementation-Title': 'Test', 'Implementation-Version': 'a version', 'Main-Class': 'com.ahsgaming.perdition.DesktopLauncher'
+        }
     }
 }
 
