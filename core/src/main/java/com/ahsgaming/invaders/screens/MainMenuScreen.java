@@ -1,9 +1,9 @@
-package com.ahsgaming.perdition.screens;
+package com.ahsgaming.invaders.screens;
 
-import com.ahsgaming.perdition.GameSetupConfig;
-import com.ahsgaming.perdition.ToPGame;
-import com.ahsgaming.perdition.network.NetHost;
-import com.ahsgaming.perdition.network.PlayerConfig;
+import com.ahsgaming.invaders.GameSetupConfig;
+import com.ahsgaming.invaders.InvadersGame;
+import com.ahsgaming.invaders.network.NetHost;
+import com.ahsgaming.invaders.network.PlayerConfig;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 /**
- * towers-of-perdition
+ * towers-of-invaders
  * (c) 2013 Jami Couch
  * User: jami
  * Date: 3/31/14
@@ -21,7 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 public class MainMenuScreen extends AbstractScreen {
     public static String LOG = "MainMenuScreen";
 
-    public MainMenuScreen(ToPGame game) {
+    public MainMenuScreen(InvadersGame game) {
         super(game);
     }
 

@@ -1,8 +1,8 @@
-package com.ahsgaming.perdition.screens;
+package com.ahsgaming.invaders.screens;
 
-import com.ahsgaming.perdition.GameSetupConfig;
-import com.ahsgaming.perdition.ToPGame;
-import com.ahsgaming.perdition.network.*;
+import com.ahsgaming.invaders.GameSetupConfig;
+import com.ahsgaming.invaders.InvadersGame;
+import com.ahsgaming.invaders.network.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -15,7 +15,7 @@ import com.esotericsoftware.kryonet.Client;
 import java.net.InetAddress;
 
 /**
- * towers-of-perdition
+ * towers-of-invaders
  * (c) 2013 Jami Couch
  * User: jami
  * Date: 3/31/14
@@ -32,7 +32,7 @@ public class GameJoinScreen extends AbstractScreen {
 
     boolean connected = false;
 
-    public GameJoinScreen(ToPGame game) {
+    public GameJoinScreen(InvadersGame game) {
         super(game);
     }
 

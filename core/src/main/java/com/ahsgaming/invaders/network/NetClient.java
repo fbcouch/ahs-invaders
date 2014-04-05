@@ -1,17 +1,16 @@
-package com.ahsgaming.perdition.network;
+package com.ahsgaming.invaders.network;
 
-import com.ahsgaming.perdition.GameSetupConfig;
-import com.ahsgaming.perdition.ToPGame;
+import com.ahsgaming.invaders.GameSetupConfig;
+import com.ahsgaming.invaders.InvadersGame;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryonet.Client;
-import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
 import java.io.IOException;
 
 /**
- * towers-of-perdition
+ * towers-of-invaders
  * (c) 2013 Jami Couch
  * User: jami
  * Date: 3/31/14
@@ -20,7 +19,7 @@ import java.io.IOException;
 public class NetClient implements NetInterface {
     public static String LOG = "NetClient";
 
-    ToPGame game;
+    InvadersGame game;
     Client client;
 
     boolean connecting = false;
@@ -33,7 +32,7 @@ public class NetClient implements NetInterface {
 
     Array<PlayerConfig> playerConfigs;
 
-    public NetClient(ToPGame game, GameSetupConfig gameSetupConfig, PlayerConfig player) {
+    public NetClient(InvadersGame game, GameSetupConfig gameSetupConfig, PlayerConfig player) {
         this.game = game;
         gameConfig = gameSetupConfig;
         this.playerConfig = player;

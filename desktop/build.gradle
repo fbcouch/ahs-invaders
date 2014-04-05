@@ -4,7 +4,7 @@ run {
     ignoreExitValue = true
 }
 
-mainClassName = "com.ahsgaming.perdition.DesktopLauncher"
+mainClassName = "com.ahsgaming.invaders.DesktopLauncher"
 
 sourceSets.main.resources.srcDirs = [file("../android/assets").getAbsolutePath()]
 

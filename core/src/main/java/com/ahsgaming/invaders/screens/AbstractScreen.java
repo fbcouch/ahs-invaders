@@ -1,6 +1,6 @@
-package com.ahsgaming.perdition.screens;
+package com.ahsgaming.invaders.screens;
 
-import com.ahsgaming.perdition.ToPGame;
+import com.ahsgaming.invaders.InvadersGame;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 /**
- * towers-of-perdition
+ * towers-of-invaders
  * (c) 2013 Jami Couch
  * User: jami
  * Date: 3/31/14
@@ -17,16 +17,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
  */
 public class AbstractScreen implements Screen {
 
-    final ToPGame game;
+    final InvadersGame game;
     Stage stage;
     Skin skin;
     BitmapFont fontSmall;
     BitmapFont fontMed;
     BitmapFont fontLarge;
 
-    public AbstractScreen(ToPGame game) {
+    public AbstractScreen(InvadersGame game) {
         this.game = game;
-        this.stage = new Stage(0, 0, true);
+        this.stage = new Stage();
         getSkin();
     }
 
@@ -73,7 +73,7 @@ public class AbstractScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        stage.setViewport(width, height);
+        stage.getViewport().update(width, height);
         stage.clear();
     }
 

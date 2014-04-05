@@ -1,11 +1,11 @@
-package com.ahsgaming.perdition.network;
+package com.ahsgaming.invaders.network;
 
-import com.ahsgaming.perdition.ToPGame;
+import com.ahsgaming.invaders.InvadersGame;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.EndPoint;
 
 /**
- * towers-of-perdition
+ * towers-of-invaders
  * (c) 2013 Jami Couch
  * User: jami
  * Date: 3/31/14
@@ -31,7 +31,7 @@ public class KryoCommon {
 
         @Override
         public String getMessage() {
-            return String.format("Host version (%s) does not match client version (%s).", serverVersion, ToPGame.VERSION);
+            return String.format("Host version (%s) does not match client version (%s).", serverVersion, InvadersGame.VERSION);
         }
     }
 

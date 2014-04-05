@@ -1,24 +1,23 @@
 
-package com.ahsgaming.perdition;
+package com.ahsgaming.invaders;
 
-import com.ahsgaming.perdition.network.NetInterface;
-import com.ahsgaming.perdition.screens.GameJoinScreen;
-import com.ahsgaming.perdition.screens.GameSetupScreen;
-import com.ahsgaming.perdition.screens.MainMenuScreen;
-import com.ahsgaming.perdition.screens.Test3dScreen;
+import com.ahsgaming.invaders.network.NetInterface;
+import com.ahsgaming.invaders.screens.*;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.physics.bullet.Bullet;
 
 
-public class ToPGame extends Game {
+public class InvadersGame extends Game {
     public static boolean DEBUG_NOMENU = true;
 
     public final static String VERSION = "0.0.1";
 
 	@Override
 	public void create () {
+        Bullet.init();
 
         if (DEBUG_NOMENU) {
-            setScreen(new Test3dScreen(this));
+            setScreen(new LevelScreen(this));
         } else {
             setMainMenuScreen();
         }

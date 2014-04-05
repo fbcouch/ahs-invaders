@@ -1,7 +1,7 @@
-package com.ahsgaming.perdition.network;
+package com.ahsgaming.invaders.network;
 
 /**
- * towers-of-perdition
+ * towers-of-invaders
  * (c) 2013 Jami Couch
  * User: jami
  * Date: 3/31/14

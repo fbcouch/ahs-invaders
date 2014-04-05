@@ -1,9 +1,9 @@
-package com.ahsgaming.perdition.network;
+package com.ahsgaming.invaders.network;
 
-import com.ahsgaming.perdition.ToPGame;
+import com.ahsgaming.invaders.InvadersGame;
 
 /**
- * towers-of-perdition
+ * towers-of-invaders
  * (c) 2013 Jami Couch
  * User: jami
  * Date: 3/31/14
@@ -16,7 +16,7 @@ public class PlayerConfig {
     String name = "";
     String classId = "";
     boolean ready = false;
-    String version = ToPGame.VERSION;
+    String version = InvadersGame.VERSION;
 
     public PlayerConfig() {}
 

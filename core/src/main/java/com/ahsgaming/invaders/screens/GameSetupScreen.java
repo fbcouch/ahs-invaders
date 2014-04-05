@@ -1,13 +1,13 @@
-package com.ahsgaming.perdition.screens;
+package com.ahsgaming.invaders.screens;
 
-import com.ahsgaming.perdition.GameSetupConfig;
-import com.ahsgaming.perdition.ToPGame;
-import com.ahsgaming.perdition.network.*;
+import com.ahsgaming.invaders.GameSetupConfig;
+import com.ahsgaming.invaders.InvadersGame;
+import com.ahsgaming.invaders.network.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 /**
- * towers-of-perdition
+ * towers-of-invaders
  * (c) 2013 Jami Couch
  * User: jami
  * Date: 3/31/14
@@ -21,7 +21,7 @@ public class GameSetupScreen extends AbstractScreen {
 
     Table playerTable;
 
-    public GameSetupScreen(ToPGame game, GameSetupConfig gameSetupConfig, NetInterface netInterface) {
+    public GameSetupScreen(InvadersGame game, GameSetupConfig gameSetupConfig, NetInterface netInterface) {
         super(game);
         this.gameSetupConfig = gameSetupConfig;
         this.netInterface = netInterface;

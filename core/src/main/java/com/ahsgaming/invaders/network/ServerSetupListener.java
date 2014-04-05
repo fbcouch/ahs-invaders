@@ -1,10 +1,10 @@
-package com.ahsgaming.perdition.network;
+package com.ahsgaming.invaders.network;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
 /**
- * towers-of-perdition
+ * towers-of-invaders
  * (c) 2013 Jami Couch
  * User: jami
  * Date: 3/31/14

@@ -1,6 +1,6 @@
-package com.ahsgaming.perdition.screens;
+package com.ahsgaming.invaders.screens;
 
-import com.ahsgaming.perdition.ToPGame;
+import com.ahsgaming.invaders.InvadersGame;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
@@ -21,7 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 
 /**
- * towers-of-perdition
+ * towers-of-invaders
  * (c) 2013 Jami Couch
  * User: jami
  * Date: 4/4/14
@@ -52,7 +52,7 @@ public class Test3dScreen extends AbstractScreen {
     Shape blockShape, invaderShape, shipShape;
     BoundingBox bounds = new BoundingBox();
 
-    public Test3dScreen(ToPGame game) {
+    public Test3dScreen(InvadersGame game) {
         super(game);
         instances = new Array<GameObject>();
         blocks = new Array<GameObject>();

@@ -1,6 +1,6 @@
-package com.ahsgaming.perdition.network;
+package com.ahsgaming.invaders.network;
 
-import com.ahsgaming.perdition.ToPGame;
+import com.ahsgaming.invaders.InvadersGame;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryonet.Connection;
@@ -10,7 +10,7 @@ import com.esotericsoftware.kryonet.Server;
 import java.util.HashMap;
 
 /**
- * towers-of-perdition
+ * towers-of-invaders
  * (c) 2013 Jami Couch
  * User: jami
  * Date: 3/31/14
@@ -20,7 +20,7 @@ public class NetHost implements NetInterface {
     public static String LOG = "NetHost";
     public static final int MAX_PLAYERS = 4;
 
-    final ToPGame game;
+    final InvadersGame game;
 
     Server server, broadcastServer;
 
@@ -33,7 +33,7 @@ public class NetHost implements NetInterface {
 
     int nextPlayerId = 0;
 
-    public NetHost(ToPGame game, PlayerConfig playerConfig) {
+    public NetHost(InvadersGame game, PlayerConfig playerConfig) {
         this.game = game;
         this.playerConfig = playerConfig;
 
@@ -104,9 +104,9 @@ public class NetHost implements NetInterface {
         }
 
         playerConfig.id = nextPlayerId++;
-        if (!playerConfig.version.equals(ToPGame.VERSION)) {
+        if (!playerConfig.version.equals(InvadersGame.VERSION)) {
             KryoCommon.VersionError ve = new KryoCommon.VersionError();
-            ve.serverVersion = ToPGame.VERSION;
+            ve.serverVersion = InvadersGame.VERSION;
             conn.sendTCP(ve);
             onError(ve);
         } else if (playerMap.values().size() >= MAX_PLAYERS) {

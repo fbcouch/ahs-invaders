@@ -1,5 +1,5 @@
 
-package com.ahsgaming.perdition;
+package com.ahsgaming.invaders;
 
 import android.os.Bundle;
 
@@ -11,6 +11,6 @@ public class MainActivity extends AndroidApplication {
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new ToPGame(), config);
+		initialize(new InvadersGame(), config);
 	}
 }
