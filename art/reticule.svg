@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 512 512"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   width="100%"
+   height="100%"
+   sodipodi:docname="reticule.svg"
+   inkscape:export-filename="/home/jami/Projects/java/invaders/assets/reticule.png"
+   inkscape:export-xdpi="11.25"
+   inkscape:export-ydpi="11.25">
+  <metadata
+     id="metadata32">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs30" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1051"
+     id="namedview28"
+     showgrid="false"
+     inkscape:zoom="1.84375"
+     inkscape:cx="104.59787"
+     inkscape:cy="267.34728"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <g
+     transform="matrix(18.68858,0,0,18.68858,-5674.69017,-230.9801)"
+     id="g6"
+     style="fill:#ffffff">
+    <path
+       style="fill:#ffffff"
+       d="M 246.65625 19.6875 C 123.7403 24.558441 24.717915 123.20363 20.0625 246.15625 L 78.4375 246.15625 C 83.003824 155.29207 155.85522 82.271805 246.65625 77.46875 L 246.65625 19.6875 z M 265.34375 19.6875 L 265.34375 77.46875 C 356.31808 82.089769 429.36488 155.16666 433.9375 246.15625 L 491.6875 246.15625 C 487.05365 123.07961 388.4046 24.373532 265.34375 19.6875 z M 20.09375 264.84375 C 25.044449 387.54722 123.94018 486.42045 246.65625 491.3125 L 246.65625 432.9375 C 156.05801 428.14176 83.32245 355.42941 78.46875 264.84375 L 20.09375 264.84375 z M 433.90625 264.84375 C 429.04601 355.55356 356.11512 428.3217 265.34375 432.9375 L 265.34375 491.3125 C 388.20534 486.60675 486.72849 387.67169 491.65625 264.84375 L 433.90625 264.84375 z "
+       transform="matrix(0.05350861,0,0,0.05350861,303.6448,12.359425)"
+       id="path8" />
+    <path
+       style="fill:#ffffff"
+       d="M 256.21875 126.9375 C 224.03108 126.9375 194.5348 138.70851 171.90625 158.1875 L 194.34375 180.625 C 211.11557 166.69467 232.69566 158.34375 256.21875 158.34375 C 279.62982 158.34376 301.10542 166.62555 317.84375 180.4375 L 340.15625 158.125 C 317.68421 138.68938 288.3661 126.9375 256.21875 126.9375 z M 353.375 171.34375 L 331.0625 193.65625 C 344.82396 210.37971 353.0625 231.82404 353.0625 255.1875 C 353.0625 278.63877 344.72854 300.26499 330.875 317.15625 L 353.21875 339.5 C 372.69754 316.8708 384.4679 287.37592 384.46875 255.1875 C 384.4696 223.08689 372.75949 193.80237 353.375 171.34375 z M 158.65625 171.375 C 139.14384 193.82894 127.3125 223.10275 127.3125 255.1875 C 127.3125 287.36012 139.20255 316.84311 158.8125 339.46875 L 181.34375 316.9375 C 167.5991 300.07818 159.375 278.53509 159.375 255.1875 C 159.375 231.93694 167.54661 210.59334 181.1875 193.90625 L 158.65625 171.375 z M 194.5 330.21875 L 172.03125 352.6875 C 194.64412 372.24557 224.09502 384.09375 256.21875 384.09375 C 288.30248 384.09375 317.57746 372.26373 340.03125 352.75 L 317.6875 330.40625 C 300.96776 344.29859 279.57386 352.6875 256.21875 352.6875 C 232.75973 352.6875 211.25321 344.2233 194.5 330.21875 z "
+       transform="matrix(0.05350861,0,0,0.05350861,303.6448,12.359425)"
+       id="path14" />
+    <path
+       d="m318.4662,20.6116-2.1781,7e-06 1.0891,4.0884 1.0891-4.0885z"
+       fill="#fff"
+       id="path20"
+       style="fill:#ffffff" />
+    <path
+       d="m318.4662,31.4088-2.1781-7e-06 1.0891-4.0884 1.0891,4.0885z"
+       fill="#fff"
+       id="path22"
+       style="fill:#ffffff" />
+    <path
+       d="m322.7757,27.0992-2e-05-2.1781-4.0884,1.0891 4.0885,1.0891z"
+       fill="#fff"
+       id="path24"
+       style="fill:#ffffff" />
+    <path
+       d="m311.9785,27.0992 1e-05-2.1781 4.0884,1.0891-4.0884,1.0891z"
+       fill="#fff"
+       id="path26"
+       style="fill:#ffffff" />
+  </g>
+</svg>

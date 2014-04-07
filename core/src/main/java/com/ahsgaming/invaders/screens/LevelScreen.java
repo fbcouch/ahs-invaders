@@ -25,6 +25,7 @@ import com.badlogic.gdx.physics.bullet.dynamics.*;
 import com.badlogic.gdx.physics.bullet.linearmath.btDefaultMotionState;
 import com.badlogic.gdx.physics.bullet.linearmath.btQuaternion;
 import com.badlogic.gdx.physics.bullet.linearmath.btTransform;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 
@@ -74,6 +75,14 @@ public class LevelScreen extends AbstractScreen {
 
     boolean[] keysDown;
 
+    ContactListener testContactListener;
+
+    ModelBuilder modelBuilder;
+
+    Image reticule;
+
+    // collision flags
+    static int PLAYER_FLAG = 2; // can an object collide with the player?
 
     public LevelScreen(InvadersGame game) {
         super(game);
@@ -153,7 +162,9 @@ public class LevelScreen extends AbstractScreen {
         assets.load("ship/ship.obj", Model.class);
         assets.load("block/block.obj", Model.class);
         assets.load("invader/invader.obj", Model.class);
+        assets.load("laser/laser.g3db", Model.class);
         assets.load("spacesphere/spacesphere.obj", Model.class);
+        assets.load("reticule.png", Texture.class);
         loading = true;
 
         selectionMaterial = new Material();
@@ -171,24 +182,54 @@ public class LevelScreen extends AbstractScreen {
         debugDrawer = new DebugDrawer();
         collisionWorld.setDebugDrawer(debugDrawer);
         debugDrawer.setDebugMode(1);
+
+        testContactListener = new ContactListener() {
+            @Override
+            public void onContactStarted(btCollisionObject colObj0, boolean match0, btCollisionObject colObj1, boolean match1) {
+                if (colObj0.userData == ship || colObj1.userData == ship) {
+                    if (invaders.contains((GameObject)colObj0.userData, true)) {
+                        ((GameObject)colObj0.userData).setRemove(true);
+                    }
+                    if (invaders.contains((GameObject)colObj1.userData, true)) {
+                        ((GameObject)colObj1.userData).setRemove(true);
+                    }
+                }
+            }
+        };
+
     }
 
     GameObject createGameObject(Model model) {
-        GameObject object = new GameObject(model);
+        return createGameObject(model, 1);
+    }
+
+    GameObject createGameObject(Model model, int mass) {
+        GameObject object = new GameObject(model, mass);
         object.calculateBoundingBox(bounds);
         shipShape = new Sphere(bounds);
         object.shape = shipShape;
         instances.add(object);
         collisionWorld.addRigidBody(object.rigidBody);
-
+        object.rigidBody.userData = object;
+        object.rigidBody.setContactCallbackFlag(PLAYER_FLAG);
+        object.rigidBody.setContactCallbackFilter(PLAYER_FLAG);
         return object;
     }
 
     void doneLoading() {
+
+        reticule = new Image(assets.get("reticule.png", Texture.class));
+        reticule.setPosition((stage.getWidth() - reticule.getWidth()) / 2, (stage.getHeight() - reticule.getHeight()) / 2);
+        reticule.setColor(0.2f, 0.4f, 1.0f, 0.8f);
+        stage.addActor(reticule);
+
         ship = createGameObject(assets.get("ship/ship.obj", Model.class));
         ship.rotate(0, 180, 180).translate(0, 0, 6);
         ship.rigidBody.forceActivationState(Collision.DISABLE_DEACTIVATION);
         ship.rigidBody.setDamping(0.1f, 0.1f);
+
+        GameObject laser = createGameObject(assets.get("laser/laser.g3db", Model.class), 1);
+        laser.translate(0, 2, 0);
 
         Model blockModel = assets.get("block/block.obj", Model.class);
         for (int x = -5; x < 5; x += 2) {
@@ -202,7 +243,7 @@ public class LevelScreen extends AbstractScreen {
             for (int z = -8; z <= 0; z += 2) {
                 GameObject invader = createGameObject(invaderModel);
                 invader.translate(x, 0, z);
-                blocks.add(invader);
+                invaders.add(invader);
             }
         }
 
@@ -251,7 +292,7 @@ public class LevelScreen extends AbstractScreen {
             ship.transform.getTranslation(tempVector);
 
             cam.position.set(new Vector3(tempVector).add(new Vector3(0, 2, -5).mul(q)));
-            cam.lookAt(tempVector);
+            cam.lookAt(new Vector3(tempVector).add(new Vector3(0, 1, 0).mul(q)));
 
             // lock the camera up to the ship's up
             Vector3 yRotation = new Vector3(0, 1, 0).mul(q);
@@ -259,6 +300,19 @@ public class LevelScreen extends AbstractScreen {
             cam.up.set(yRotation);
 
             cam.update();
+
+            space.transform.setToTranslation(tempVector);
+        }
+
+        for (int i = 0; i < instances.size; i++) {
+            GameObject instance = instances.get(i);
+            if (instance.isRemove()) {
+                instances.removeIndex(i);
+                blocks.removeValue(instance, true);
+                invaders.removeValue(instance, true);
+                collisionWorld.removeRigidBody(instance.rigidBody);
+                instance.dispose();
+            }
         }
 
         collisionWorld.stepSimulation(delta, 5);
@@ -369,8 +423,17 @@ public class LevelScreen extends AbstractScreen {
         public btRigidBody rigidBody;
         public BoundingBox bounds;
 
+        boolean remove;
+
+        int mass = 1;
+
         public GameObject(Model model) {
+            this(model, 1);
+        }
+
+        public GameObject(Model model, int mass) {
             super(model);
+            this.mass = mass;
             init();
         }
 
@@ -381,8 +444,8 @@ public class LevelScreen extends AbstractScreen {
 
             // physics stuff
             boxShape = new btBoxShape(bounds.getDimensions().scl(0.5f));
-            boxShape.calculateLocalInertia(1, tempVector);
-            info = new btRigidBodyConstructionInfo(1, null, boxShape, tempVector);
+            boxShape.calculateLocalInertia(mass, tempVector);
+            info = new btRigidBodyConstructionInfo(mass, null, boxShape, tempVector);
             motionState = new btDefaultMotionState();
             rigidBody = new btRigidBody(info);
             rigidBody.setMotionState(motionState);
@@ -420,6 +483,14 @@ public class LevelScreen extends AbstractScreen {
         public GameObject translate(float x, float y, float z) {
             rigidBody.translate(new Vector3(x, y, z));
             return this;
+        }
+
+        public boolean isRemove() {
+            return remove;
+        }
+
+        public void setRemove(boolean remove) {
+            this.remove = remove;
         }
     }
 
