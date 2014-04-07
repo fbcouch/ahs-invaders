@@ -15,8 +15,8 @@
    height="100%"
    sodipodi:docname="reticule.svg"
    inkscape:export-filename="/home/jami/Projects/java/invaders/assets/reticule.png"
-   inkscape:export-xdpi="11.25"
-   inkscape:export-ydpi="11.25">
+   inkscape:export-xdpi="8.4375"
+   inkscape:export-ydpi="8.4375">
   <metadata
      id="metadata32">
     <rdf:RDF>
@@ -25,6 +25,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -45,7 +46,7 @@
      showgrid="false"
      inkscape:zoom="1.84375"
      inkscape:cx="104.59787"
-     inkscape:cy="267.34728"
+     inkscape:cy="462.60151"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"

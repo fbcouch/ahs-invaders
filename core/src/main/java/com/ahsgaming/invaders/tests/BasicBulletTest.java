@@ -61,7 +61,7 @@ public class BasicBulletTest extends BulletTest {
     Array<Model> models = new Array<Model>();
     Array<ModelInstance> instances = new Array<ModelInstance>();
     Array<btDefaultMotionState> motionStates = new Array<btDefaultMotionState>();
-    Array<btRigidBodyConstructionInfo> bodyInfos = new Array<btRigidBodyConstructionInfo>();
+    Array<btRigidBody.btRigidBodyConstructionInfo> bodyInfos = new Array<btRigidBody.btRigidBodyConstructionInfo>();
     Array<btCollisionShape> shapes = new Array<btCollisionShape>();
     Array<btRigidBody> bodies = new Array<btRigidBody>();
 
@@ -127,12 +127,12 @@ public class BasicBulletTest extends BulletTest {
         // Create the shapes and body construction infos
         btCollisionShape groundShape = new btBoxShape(tempVector.set(20, 0, 20));
         shapes.add(groundShape);
-        btRigidBodyConstructionInfo groundInfo = new btRigidBodyConstructionInfo(0f, null, groundShape, Vector3.Zero);
+        btRigidBody.btRigidBodyConstructionInfo groundInfo = new btRigidBody.btRigidBodyConstructionInfo(0f, null, groundShape, Vector3.Zero);
         bodyInfos.add(groundInfo);
         btCollisionShape sphereShape = new btSphereShape(0.5f);
         shapes.add(sphereShape);
         sphereShape.calculateLocalInertia(1f, tempVector);
-        btRigidBodyConstructionInfo sphereInfo = new btRigidBodyConstructionInfo(1f, null, sphereShape, tempVector);
+        btRigidBody.btRigidBodyConstructionInfo sphereInfo = new btRigidBody.btRigidBodyConstructionInfo(1f, null, sphereShape, tempVector);
         bodyInfos.add(sphereInfo);
         // Create the ground
         ModelInstance ground = new ModelInstance(groundModel);
@@ -206,7 +206,7 @@ public class BasicBulletTest extends BulletTest {
         for (btCollisionShape shape : shapes)
             shape.dispose();
         shapes.clear();
-        for (btRigidBodyConstructionInfo info : bodyInfos)
+        for (btRigidBody.btRigidBodyConstructionInfo info : bodyInfos)
             info.dispose();
         bodyInfos.clear();
 

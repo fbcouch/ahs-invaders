@@ -11,7 +11,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 
         cfg.title = "Towers of Perdition | ahsgaming.com | (c) 2014 Jami Couch";
-        cfg.useGL30 = true;
+//        cfg.useGL30 = true;
         cfg.width = 1200;     // TODO load from config?
         cfg.height = 750;
         cfg.fullscreen = false;
