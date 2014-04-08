@@ -127,6 +127,7 @@ public class LevelScreen extends AbstractScreen {
         assets.load("block/block.obj", Model.class);
         assets.load("invader/invader.obj", Model.class);
         assets.load("tie/tieblend.g3db", Model.class);
+        assets.load("bomber/bomber.g3db", Model.class);
         assets.load("laser/laser.g3db", Model.class);
         assets.load("spacesphere/spacesphere.obj", Model.class);
         assets.load("missile/missile.g3db", Model.class);
