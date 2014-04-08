@@ -4,6 +4,8 @@ package com.ahsgaming.invaders;
 import com.ahsgaming.invaders.network.NetInterface;
 import com.ahsgaming.invaders.screens.*;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.physics.bullet.Bullet;
 
 
@@ -16,11 +18,14 @@ public class InvadersGame extends Game {
 	public void create () {
         Bullet.init();
 
+//        Gdx.graphics.setDisplayMode(3840, 1080, true);
+
         if (DEBUG_NOMENU) {
             setScreen(new LevelScreen(this));
         } else {
             setMainMenuScreen();
         }
+
 	}
 
     public void setMainMenuScreen() {

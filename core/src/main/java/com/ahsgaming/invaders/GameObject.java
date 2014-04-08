@@ -30,7 +30,7 @@ public class GameObject extends ModelInstance {
 
     int mass = 1;
     int maxSpeed = 10;
-    public float throttle = 0, thrust = 10;
+    public float throttle = 0, thrust = 10, rollThrust = 0.5f, pitchThrust = 0.5f, yawThrust = 0.5f;
 
     static Vector3 tempVector = new Vector3();
     static Quaternion q = new Quaternion();
@@ -90,15 +90,36 @@ public class GameObject extends ModelInstance {
     public void fire(LevelScreen screen) {
         if (fireCountdown <= 0) {
             fireCountdown = fireTimer;
-            GameObject bullet = screen.createGameObject(screen.assets.get("laser/laser.g3db", Model.class), 10);
+            GameObject bullet = screen.createGameObject(screen.assets.get("laser/laser.g3db", Model.class), 1);
             transform.getTranslation(tempVector);
             transform.getRotation(q);
-            bullet.rotate(q).translate(tempVector.add(new Vector3(0, 0, 2).mul(q)));
+            bullet.rotate(q).translate(tempVector.add(new Vector3(0.5f, 0, 2).mul(q)));
             bullet.maxSpeed = 100;
-            bullet.thrust = 100;
+            bullet.thrust = 1000;
             bullet.throttle = 1;
-            // fire!
+            bullet.rigidBody.setLinearVelocity(new Vector3(0, 0, 100).mul(q));
+
+            bullet = screen.createGameObject(screen.assets.get("laser/laser.g3db", Model.class), 1);
+            transform.getTranslation(tempVector);
+            transform.getRotation(q);
+            bullet.rotate(q).translate(tempVector.add(new Vector3(-0.5f, 0, 2).mul(q)));
+            bullet.maxSpeed = 100;
+            bullet.thrust = 1000;
+            bullet.throttle = 1;
+            bullet.rigidBody.setLinearVelocity(new Vector3(0, 0, 100).mul(q));
         }
+    }
+
+    public void pitch(float amount) {
+        transform.getRotation(q);
+        tempVector.set(amount * pitchThrust, 0, 0).mul(q);
+        rigidBody.applyTorque(tempVector);
+    }
+
+    public void roll(float amount) {
+        transform.getRotation(q);
+        tempVector.set(0, 0, amount * rollThrust).mul(q);
+        rigidBody.applyTorque(tempVector);
     }
 
     public GameObject rotate(Quaternion quaternion) {
