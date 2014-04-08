@@ -1,4 +1,6 @@
-package com.ahsgaming.invaders;
+package com.ahsgaming.invaders.behaviors;
+
+import com.ahsgaming.invaders.GameObject;
 
 /**
  * invaders

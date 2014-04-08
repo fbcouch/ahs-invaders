@@ -19,3 +19,5 @@ out/
 gen/
 local.properties
 !gradle/
+*.blend*
+!*.blend

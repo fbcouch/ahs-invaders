@@ -1,9 +1,10 @@
 package com.ahsgaming.invaders.screens;
 
-import com.ahsgaming.invaders.Behaviors;
 import com.ahsgaming.invaders.GameObject;
 import com.ahsgaming.invaders.InvadersGame;
 import com.ahsgaming.invaders.Weapon;
+import com.ahsgaming.invaders.behaviors.PlayerShipBehavior;
+import com.ahsgaming.invaders.behaviors.ShipBehavior;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -66,6 +67,8 @@ public class LevelScreen extends AbstractScreen {
 
     Image reticule;
 
+    boolean debugRender = false;
+
     Vector3 camPos = new Vector3(0, 2, -7), camTarget = new Vector3(0, 1.2f, 0);
     public int scrollAmount = 0;
     public int maxScroll = 20;
@@ -107,6 +110,15 @@ public class LevelScreen extends AbstractScreen {
                 if (scrollAmount < 0) scrollAmount = 0;
                 return true;
             }
+
+            @Override
+            public boolean keyDown(int keycode) {
+                if (keycode == Input.Keys.NUM_0) {
+                    debugRender = !debugRender;
+                    return true;
+                }
+                return false;
+            }
         };
         Gdx.input.setInputProcessor(inputAdapter);
 
@@ -117,6 +129,7 @@ public class LevelScreen extends AbstractScreen {
         assets.load("tie/tieblend.g3db", Model.class);
         assets.load("laser/laser.g3db", Model.class);
         assets.load("spacesphere/spacesphere.obj", Model.class);
+        assets.load("missile/missile.g3db", Model.class);
         assets.load("reticule.png", Texture.class);
         loading = true;
 
@@ -175,7 +188,7 @@ public class LevelScreen extends AbstractScreen {
         ship.rotate(0, 180, 180).translate(0, 0, 6);
         ship.rigidBody.forceActivationState(Collision.DISABLE_DEACTIVATION);
         ship.rigidBody.setDamping(0.2f, 0.2f);
-        Behaviors.ShipBehavior shipBehavior = new Behaviors.PlayerShipBehavior(ship);
+        ShipBehavior shipBehavior = new PlayerShipBehavior(ship);
         ship.damageBehavior = shipBehavior;
         ship.collideBehavior = shipBehavior;
         ship.updateBehavior = shipBehavior;
@@ -184,6 +197,11 @@ public class LevelScreen extends AbstractScreen {
         laser.firePoints.add(new Vector3(0.5f, 0, 2f));
         laser.firePoints.add(new Vector3(-0.5f, 0, 2f));
         ship.weapons.add(laser);
+
+        Weapon missile = new Weapon.BasicMissile(ship, assets.get("missile/missile.g3db", Model.class));
+        missile.firePoints.add(new Vector3(0, 0, 2f));
+        ship.weapons.add(missile);
+
         ship.curWeapon = 0;
 
         Model blockModel = assets.get("block/block.obj", Model.class);
@@ -191,7 +209,7 @@ public class LevelScreen extends AbstractScreen {
             GameObject block = createGameObject(blockModel);
             block.translate(x, 0, 3);
             blocks.add(block);
-            shipBehavior = new Behaviors.ShipBehavior(block);
+            shipBehavior = new ShipBehavior(block);
             block.damageBehavior = shipBehavior;
             block.collideBehavior = shipBehavior;
             block.updateBehavior = shipBehavior;
@@ -203,7 +221,7 @@ public class LevelScreen extends AbstractScreen {
                 GameObject invader = createGameObject(invaderModel);
                 invader.translate(x, 0, z);
                 invaders.add(invader);
-                shipBehavior = new Behaviors.ShipBehavior(invader);
+                shipBehavior = new ShipBehavior(invader);
                 invader.damageBehavior = shipBehavior;
                 invader.collideBehavior = shipBehavior;
                 invader.updateBehavior = shipBehavior;
@@ -231,13 +249,13 @@ public class LevelScreen extends AbstractScreen {
             Quaternion q = new Quaternion();
             ship.transform.getRotation(q);
 
-            if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
+            if (Gdx.input.isKeyPressed(Input.Keys.F1)) {
                 camPos.set(0, 2, -7);
                 camTarget.set(0, 1.2f, 0);
-            } else if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
+            } else if (Gdx.input.isKeyPressed(Input.Keys.F2)) {
                 camPos.set(0, 0, 0);
                 camTarget.set(0, 0, 1);
-            } else if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)) {
+            } else if (Gdx.input.isKeyPressed(Input.Keys.F3)) {
                 camPos.set(0, 2, 7);
                 camTarget.set(0, 0, 0);
             }
@@ -285,15 +303,18 @@ public class LevelScreen extends AbstractScreen {
         if (debugDrawer != null) {
             debugDrawer.lineRenderer.setProjectionMatrix(cam.combined);
             debugDrawer.begin();
-            collisionWorld.debugDrawWorld();
+            if (debugRender) collisionWorld.debugDrawWorld();
             debugDrawer.end();
         }
 
         stringBuilder.setLength(0);
         stringBuilder.append(" FPS: ").append(Gdx.graphics.getFramesPerSecond());
         stringBuilder.append(" Visible: ").append(visibleCount);
-        if (!loading)
-            stringBuilder.append(" Speed: ").append(ship.rigidBody.getLinearVelocity().len());
+        if (!loading && ship.rigidBody != null) {
+            // for some strange reason, calling ship.rigidBody.getLinearVelocity() here causes a segfault sometimes
+//            stringBuilder.append(" Speed: ").append(ship.rigidBody.getLinearVelocity().len());
+            stringBuilder.append(" Speed: ").append(((PlayerShipBehavior)ship.updateBehavior).throttle * ((PlayerShipBehavior)ship.updateBehavior).maxSpeed);
+        }
 
         label.setText(stringBuilder);
         stage.draw();

@@ -1,4 +1,4 @@
-package com.ahsgaming.invaders;
+package com.ahsgaming.invaders.behaviors;
 
 /**
  * invaders

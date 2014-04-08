@@ -1,5 +1,8 @@
 package com.ahsgaming.invaders;
 
+import com.ahsgaming.invaders.behaviors.CollideBehavior;
+import com.ahsgaming.invaders.behaviors.DamageBehavior;
+import com.ahsgaming.invaders.behaviors.UpdateBehavior;
 import com.ahsgaming.invaders.screens.LevelScreen;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
@@ -88,6 +91,12 @@ public class GameObject extends ModelInstance {
     public void fire(LevelScreen screen) {
         if (curWeapon >= 0 && curWeapon < weapons.size) {
             weapons.get(curWeapon).fire(screen);
+        }
+    }
+
+    public void selectWeapon(int weapon) {
+        if (weapon >= 0 && weapon < weapons.size) {
+            curWeapon = weapon;
         }
     }
 
