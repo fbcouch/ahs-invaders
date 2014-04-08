@@ -33,6 +33,26 @@ public class MissileBehavior extends BaseBehavior implements CollideBehavior, Da
     }
 
     @Override
+    public float getCurHP() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public float getMaxHP() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public float getCurSP() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public float getMaxSP() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public void update(float delta, LevelScreen levelScreen) {
         lifetime -= delta;
         if (lifetime < 0) gameObject.setRemove(true);

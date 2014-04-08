@@ -12,7 +12,7 @@ import com.ahsgaming.invaders.screens.LevelScreen;
 */
 public class ShipBehavior extends BaseBehavior implements CollideBehavior, DamageBehavior, UpdateBehavior {
 
-    public float curHP = 10, maxHP = 10;
+    public float curHP = 10, maxHP = 10, curSP = 0, maxSP = 0;
     public float throttle = 0;
     public float maxSpeed = 10;
 
@@ -32,6 +32,26 @@ public class ShipBehavior extends BaseBehavior implements CollideBehavior, Damag
             curHP = 0;
             gameObject.setRemove(true); // TODO explode!
         }
+    }
+
+    @Override
+    public float getCurHP() {
+        return curHP;
+    }
+
+    @Override
+    public float getMaxHP() {
+        return maxHP;
+    }
+
+    @Override
+    public float getCurSP() {
+        return curSP;
+    }
+
+    @Override
+    public float getMaxSP() {
+        return maxSP;
     }
 
     @Override

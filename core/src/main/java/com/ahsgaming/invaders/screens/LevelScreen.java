@@ -5,6 +5,7 @@ import com.ahsgaming.invaders.InvadersGame;
 import com.ahsgaming.invaders.Weapon;
 import com.ahsgaming.invaders.behaviors.PlayerShipBehavior;
 import com.ahsgaming.invaders.behaviors.ShipBehavior;
+import com.ahsgaming.invaders.screens.hud.HUD;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.physics.bullet.collision.*;
 import com.badlogic.gdx.physics.bullet.dynamics.*;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
@@ -66,6 +68,7 @@ public class LevelScreen extends AbstractScreen {
     ContactListener contactListener;
 
     Image reticule;
+    HUD hud;
 
     boolean debugRender = false;
 
@@ -86,6 +89,7 @@ public class LevelScreen extends AbstractScreen {
     @Override
     public void show() {
         super.show();
+        hud = new HUD();
         label = new Label(" ", getSkin());
         stringBuilder = new StringBuilder();
 
@@ -240,8 +244,10 @@ public class LevelScreen extends AbstractScreen {
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
             Gdx.app.exit();
 
-        if (loading && assets.update())
+        if (loading && assets.update()) {
             doneLoading();
+            hud.setGameObject(ship);
+        }
 
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
@@ -318,13 +324,16 @@ public class LevelScreen extends AbstractScreen {
         }
 
         label.setText(stringBuilder);
+        stage.act(delta);
         stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
+        stage.addActor(hud);
         stage.addActor(label);
+        label.setPosition(0, height - label.getHeight());
     }
 
     @Override

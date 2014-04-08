@@ -9,4 +9,8 @@ package com.ahsgaming.invaders.behaviors;
  */
 public interface DamageBehavior {
     public abstract void takeDamage(float amount);
+    public abstract float getCurHP();
+    public abstract float getMaxHP();
+    public abstract float getCurSP();
+    public abstract float getMaxSP();
 }
