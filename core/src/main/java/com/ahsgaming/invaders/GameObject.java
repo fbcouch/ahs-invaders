@@ -29,14 +29,17 @@ public class GameObject extends ModelInstance {
     boolean remove;
 
     int mass = 1;
-    int maxSpeed = 10;
-    public float throttle = 0, thrust = 10, rollThrust = 0.5f, pitchThrust = 0.5f, yawThrust = 0.5f;
+    public float thrust = 10, rollThrust = 0.5f, pitchThrust = 0.5f, yawThrust = 0.5f;
 
     static Vector3 tempVector = new Vector3();
     static Quaternion q = new Quaternion();
 
     float fireTimer = 1;
     float fireCountdown = 1;
+
+    public CollideBehavior collideBehavior;
+    public DamageBehavior damageBehavior;
+    public UpdateBehavior updateBehavior;
 
     public GameObject(Model model) {
         this(model, 1);
@@ -62,22 +65,16 @@ public class GameObject extends ModelInstance {
         rigidBody.setMotionState(motionState);
     }
 
-    public void update(float delta) {
+    public void update(float delta, LevelScreen levelScreen) {
         motionState.getWorldTransform(transform);
-        tempVector.set(rigidBody.getLinearVelocity());
-        float speed = tempVector.len();
-        if (speed > 10) {
-            tempVector.scl(10/speed);
-            rigidBody.setLinearVelocity(tempVector);
-        }
-
-        transform.getRotation(q);
-
-        rigidBody.setGravity(tempVector.set(0, 0, throttle * thrust).mul(q));
 
         fireCountdown -= delta;
         if (fireCountdown < 0)
             fireCountdown = 0;
+
+        if (updateBehavior != null) {
+            updateBehavior.update(delta, levelScreen);
+        }
     }
 
     public void dispose() {
@@ -94,19 +91,25 @@ public class GameObject extends ModelInstance {
             transform.getTranslation(tempVector);
             transform.getRotation(q);
             bullet.rotate(q).translate(tempVector.add(new Vector3(0.5f, 0, 2).mul(q)));
-            bullet.maxSpeed = 100;
-            bullet.thrust = 1000;
-            bullet.throttle = 1;
+//            bullet.maxSpeed = 100;
+//            bullet.thrust = 1000;
             bullet.rigidBody.setLinearVelocity(new Vector3(0, 0, 100).mul(q));
+            Behaviors.LaserBehavior laserBehavior = new Behaviors.LaserBehavior(bullet);
+            bullet.collideBehavior = laserBehavior;
+            bullet.damageBehavior = laserBehavior;
+            bullet.updateBehavior = laserBehavior;
 
             bullet = screen.createGameObject(screen.assets.get("laser/laser.g3db", Model.class), 1);
             transform.getTranslation(tempVector);
             transform.getRotation(q);
             bullet.rotate(q).translate(tempVector.add(new Vector3(-0.5f, 0, 2).mul(q)));
-            bullet.maxSpeed = 100;
-            bullet.thrust = 1000;
-            bullet.throttle = 1;
+//            bullet.maxSpeed = 100;
+//            bullet.thrust = 1000;
             bullet.rigidBody.setLinearVelocity(new Vector3(0, 0, 100).mul(q));
+            laserBehavior = new Behaviors.LaserBehavior(bullet);
+            bullet.collideBehavior = laserBehavior;
+            bullet.damageBehavior = laserBehavior;
+            bullet.updateBehavior = laserBehavior;
         }
     }
 
@@ -119,6 +122,12 @@ public class GameObject extends ModelInstance {
     public void roll(float amount) {
         transform.getRotation(q);
         tempVector.set(0, 0, amount * rollThrust).mul(q);
+        rigidBody.applyTorque(tempVector);
+    }
+
+    public void yaw(float amount) {
+        transform.getRotation(q);
+        tempVector.set(0, amount * yawThrust, 0).mul(q);
         rigidBody.applyTorque(tempVector);
     }
 
@@ -158,5 +167,17 @@ public class GameObject extends ModelInstance {
 
     public void setRemove(boolean remove) {
         this.remove = remove;
+    }
+
+    public void onCollide(GameObject other) {
+        if (collideBehavior != null) {
+            collideBehavior.onCollide(other);
+        }
+    }
+
+    public void takeDamage(float amount) {
+        if (damageBehavior != null) {
+            damageBehavior.takeDamage(amount);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.ahsgaming.invaders.screens;
 
+import com.ahsgaming.invaders.Behaviors;
 import com.ahsgaming.invaders.GameObject;
 import com.ahsgaming.invaders.InvadersGame;
 import com.badlogic.gdx.Gdx;
@@ -7,6 +8,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
@@ -61,16 +63,13 @@ public class LevelScreen extends AbstractScreen {
 
     DebugDrawer debugDrawer = null;
 
-    boolean[] keysDown;
-
     ContactListener contactListener;
-
-    ModelBuilder modelBuilder;
 
     Image reticule;
 
     Vector3 camPos = new Vector3(0, 2, -7), camTarget = new Vector3(0, 1.2f, 0);
-    int scrollAmount = 0, maxScroll = 20;
+    public int scrollAmount = 0;
+    public int maxScroll = 20;
 
     // collision flags
     static int PLAYER_FLAG = 2; // can an object collide with the player?
@@ -80,7 +79,6 @@ public class LevelScreen extends AbstractScreen {
         instances = new Array<GameObject>();
         blocks = new Array<GameObject>();
         invaders = new Array<GameObject>();
-        keysDown = new boolean[255];
     }
 
     @Override
@@ -102,20 +100,6 @@ public class LevelScreen extends AbstractScreen {
         cam.update();
 
         InputAdapter inputAdapter = new InputAdapter() {
-
-            @Override
-            public boolean keyDown(int keycode) {
-                keysDown[keycode] = true;
-
-                return true;
-            }
-
-            @Override
-            public boolean keyUp(int keycode) {
-                keysDown[keycode] = false;
-                return true;
-            }
-
             @Override
             public boolean scrolled(int amount) {
 
@@ -156,14 +140,10 @@ public class LevelScreen extends AbstractScreen {
         contactListener = new ContactListener() {
             @Override
             public void onContactStarted(btCollisionObject colObj0, boolean match0, btCollisionObject colObj1, boolean match1) {
-//                if (colObj0.userData == ship || colObj1.userData == ship) {
-//                    if (invaders.contains((GameObject)colObj0.userData, true)) {
-//                        ((GameObject)colObj0.userData).setRemove(true);
-//                    }
-//                    if (invaders.contains((GameObject)colObj1.userData, true)) {
-//                        ((GameObject)colObj1.userData).setRemove(true);
-//                    }
-//                }
+                if (colObj0.userData != null && colObj1.userData != null) {
+                    ((GameObject)colObj0.userData).onCollide((GameObject)colObj1.userData);
+                    ((GameObject)colObj1.userData).onCollide((GameObject)colObj0.userData);
+                }
             }
         };
 
@@ -196,17 +176,20 @@ public class LevelScreen extends AbstractScreen {
         ship.rotate(0, 180, 180).translate(0, 0, 6);
         ship.rigidBody.forceActivationState(Collision.DISABLE_DEACTIVATION);
         ship.rigidBody.setDamping(0.2f, 0.2f);
-//        ship.throttle = 1;
-
-
-        GameObject laser = createGameObject(assets.get("laser/laser.g3db", Model.class), 1);
-        laser.translate(0, 2, 0);
+        Behaviors.ShipBehavior shipBehavior = new Behaviors.PlayerShipBehavior(ship);
+        ship.damageBehavior = shipBehavior;
+        ship.collideBehavior = shipBehavior;
+        ship.updateBehavior = shipBehavior;
 
         Model blockModel = assets.get("block/block.obj", Model.class);
         for (int x = -5; x < 5; x += 2) {
             GameObject block = createGameObject(blockModel);
             block.translate(x, 0, 3);
             blocks.add(block);
+            shipBehavior = new Behaviors.ShipBehavior(block);
+            block.damageBehavior = shipBehavior;
+            block.collideBehavior = shipBehavior;
+            block.updateBehavior = shipBehavior;
         }
 
         Model invaderModel = assets.get("invader/invader.obj", Model.class);
@@ -215,6 +198,10 @@ public class LevelScreen extends AbstractScreen {
                 GameObject invader = createGameObject(invaderModel);
                 invader.translate(x, 0, z);
                 invaders.add(invader);
+                shipBehavior = new Behaviors.ShipBehavior(invader);
+                invader.damageBehavior = shipBehavior;
+                invader.collideBehavior = shipBehavior;
+                invader.updateBehavior = shipBehavior;
             }
         }
 
@@ -226,6 +213,9 @@ public class LevelScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
+            Gdx.app.exit();
+
         if (loading && assets.update())
             doneLoading();
 
@@ -236,59 +226,16 @@ public class LevelScreen extends AbstractScreen {
             Quaternion q = new Quaternion();
             ship.transform.getRotation(q);
 
-            if (keysDown[Input.Keys.NUM_1]) {
+            if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
                 camPos.set(0, 2, -7);
                 camTarget.set(0, 1.2f, 0);
-            } else if (keysDown[Input.Keys.NUM_2]) {
+            } else if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
                 camPos.set(0, 0, 0);
                 camTarget.set(0, 0, 1);
-            } else if (keysDown[Input.Keys.NUM_3]) {
+            } else if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)) {
                 camPos.set(0, 2, 7);
                 camTarget.set(0, 0, 0);
             }
-
-            if (keysDown[Input.Keys.SPACE] || Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                // TODO fire weapon!
-                ship.fire(this);
-            }
-
-            if (keysDown[Input.Keys.W] && !keysDown[Input.Keys.S]) {
-                ship.rigidBody.applyTorque(new Vector3(1, 0, 0).mul(q));
-            } else if (keysDown[Input.Keys.S] && !keysDown[Input.Keys.W]) {
-                ship.rigidBody.applyTorque(new Vector3(-1, 0, 0).mul(q));
-            }
-
-            if (keysDown[Input.Keys.A] && !keysDown[Input.Keys.D]) {
-                ship.rigidBody.applyTorque(new Vector3(0, 1, 0).mul(q));
-            } else if (keysDown[Input.Keys.D] && !keysDown[Input.Keys.A]) {
-                ship.rigidBody.applyTorque(new Vector3(0, -1, 0).mul(q));
-            }
-
-            if (keysDown[Input.Keys.Q] && !keysDown[Input.Keys.E]) {
-                ship.rigidBody.applyTorque(new Vector3(0, 0, -1).mul(q));
-            } else if (keysDown[Input.Keys.E] && !keysDown[Input.Keys.Q]) {
-                ship.rigidBody.applyTorque(new Vector3(0, 0, 1).mul(q));
-            }
-
-            if (keysDown[Input.Keys.ESCAPE])
-                Gdx.app.exit();
-
-            Gdx.input.setCursorPosition(
-                    (Gdx.input.getX() < 0 ? 0 : (Gdx.input.getX() > Gdx.graphics.getWidth() ? Gdx.graphics.getWidth() : Gdx.input.getX())),
-                    (Gdx.input.getY() < 0 ? 0 : (Gdx.input.getY() > Gdx.graphics.getHeight() ? Gdx.graphics.getHeight() : Gdx.input.getY()))
-            );
-
-            float x = (Gdx.graphics.getWidth() * 0.5f - Gdx.input.getX()) / (Gdx.graphics.getWidth() * 0.5f);
-
-            if (Math.abs(x) > 0.1f)
-                ship.roll(- x);
-
-            float y = (Gdx.graphics.getHeight() * 0.5f - Gdx.input.getY()) / (Gdx.graphics.getHeight() * 0.5f);
-
-            if (Math.abs(y) > 0.1f)
-                ship.pitch(y);
-
-            ship.throttle = scrollAmount / maxScroll;
 
             ship.transform.getTranslation(tempVector);
 
@@ -321,7 +268,7 @@ public class LevelScreen extends AbstractScreen {
         int visibleCount = 0;
         modelBatch.begin(cam);
         for (final GameObject instance : instances) {
-            instance.update(delta);
+            instance.update(delta, this);
             modelBatch.render(instance, environment);
             visibleCount++;
         }
@@ -333,7 +280,7 @@ public class LevelScreen extends AbstractScreen {
         if (debugDrawer != null) {
             debugDrawer.lineRenderer.setProjectionMatrix(cam.combined);
             debugDrawer.begin();
-//            collisionWorld.debugDrawWorld();
+            collisionWorld.debugDrawWorld();
             debugDrawer.end();
         }
 
