@@ -3,16 +3,15 @@ package com.ahsgaming.invaders.screens;
 import com.ahsgaming.invaders.Behaviors;
 import com.ahsgaming.invaders.GameObject;
 import com.ahsgaming.invaders.InvadersGame;
+import com.ahsgaming.invaders.Weapon;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
-import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
@@ -180,6 +179,12 @@ public class LevelScreen extends AbstractScreen {
         ship.damageBehavior = shipBehavior;
         ship.collideBehavior = shipBehavior;
         ship.updateBehavior = shipBehavior;
+
+        Weapon laser = new Weapon.BasicLaser(ship, assets.get("laser/laser.g3db", Model.class));
+        laser.firePoints.add(new Vector3(0.5f, 0, 2f));
+        laser.firePoints.add(new Vector3(-0.5f, 0, 2f));
+        ship.weapons.add(laser);
+        ship.curWeapon = 0;
 
         Model blockModel = assets.get("block/block.obj", Model.class);
         for (int x = -5; x < 5; x += 2) {

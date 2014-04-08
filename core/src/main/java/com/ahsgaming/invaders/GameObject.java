@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.physics.bullet.collision.btBoxShape;
 import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 import com.badlogic.gdx.physics.bullet.linearmath.btDefaultMotionState;
+import com.badlogic.gdx.utils.Array;
 
 /**
 * invaders
@@ -34,12 +35,12 @@ public class GameObject extends ModelInstance {
     static Vector3 tempVector = new Vector3();
     static Quaternion q = new Quaternion();
 
-    float fireTimer = 1;
-    float fireCountdown = 1;
-
     public CollideBehavior collideBehavior;
     public DamageBehavior damageBehavior;
     public UpdateBehavior updateBehavior;
+
+    public Array<Weapon> weapons = new Array<Weapon>();
+    public int curWeapon = -1;
 
     public GameObject(Model model) {
         this(model, 1);
@@ -68,9 +69,9 @@ public class GameObject extends ModelInstance {
     public void update(float delta, LevelScreen levelScreen) {
         motionState.getWorldTransform(transform);
 
-        fireCountdown -= delta;
-        if (fireCountdown < 0)
-            fireCountdown = 0;
+        for (Weapon weapon: weapons) {
+            weapon.update(delta);
+        }
 
         if (updateBehavior != null) {
             updateBehavior.update(delta, levelScreen);
@@ -85,31 +86,8 @@ public class GameObject extends ModelInstance {
     }
 
     public void fire(LevelScreen screen) {
-        if (fireCountdown <= 0) {
-            fireCountdown = fireTimer;
-            GameObject bullet = screen.createGameObject(screen.assets.get("laser/laser.g3db", Model.class), 1);
-            transform.getTranslation(tempVector);
-            transform.getRotation(q);
-            bullet.rotate(q).translate(tempVector.add(new Vector3(0.5f, 0, 2).mul(q)));
-//            bullet.maxSpeed = 100;
-//            bullet.thrust = 1000;
-            bullet.rigidBody.setLinearVelocity(new Vector3(0, 0, 100).mul(q));
-            Behaviors.LaserBehavior laserBehavior = new Behaviors.LaserBehavior(bullet);
-            bullet.collideBehavior = laserBehavior;
-            bullet.damageBehavior = laserBehavior;
-            bullet.updateBehavior = laserBehavior;
-
-            bullet = screen.createGameObject(screen.assets.get("laser/laser.g3db", Model.class), 1);
-            transform.getTranslation(tempVector);
-            transform.getRotation(q);
-            bullet.rotate(q).translate(tempVector.add(new Vector3(-0.5f, 0, 2).mul(q)));
-//            bullet.maxSpeed = 100;
-//            bullet.thrust = 1000;
-            bullet.rigidBody.setLinearVelocity(new Vector3(0, 0, 100).mul(q));
-            laserBehavior = new Behaviors.LaserBehavior(bullet);
-            bullet.collideBehavior = laserBehavior;
-            bullet.damageBehavior = laserBehavior;
-            bullet.updateBehavior = laserBehavior;
+        if (curWeapon >= 0 && curWeapon < weapons.size) {
+            weapons.get(curWeapon).fire(screen);
         }
     }
 
