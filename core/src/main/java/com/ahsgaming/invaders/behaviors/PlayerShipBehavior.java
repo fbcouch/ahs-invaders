@@ -4,6 +4,7 @@ import com.ahsgaming.invaders.GameObject;
 import com.ahsgaming.invaders.screens.LevelScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Vector2;
 
 /**
 * invaders
@@ -13,6 +14,8 @@ import com.badlogic.gdx.Input;
 * Time: 1:30 PM
 */
 public class PlayerShipBehavior extends ShipBehavior {
+
+    public Vector2 mouseOrientation = new Vector2();
 
     public PlayerShipBehavior(GameObject gameObject) {
         super(gameObject);
@@ -55,10 +58,17 @@ public class PlayerShipBehavior extends ShipBehavior {
 
         float x = (Gdx.graphics.getWidth() * 0.5f - Gdx.input.getX()) / (Gdx.graphics.getWidth() * 0.5f);
 
-        if (Math.abs(x) > 0.1f)
-            gameObject.roll(- x);
-
         float y = (Gdx.graphics.getHeight() * 0.5f - Gdx.input.getY()) / (Gdx.graphics.getHeight() * 0.5f);
+
+        mouseOrientation.set(x,y);
+        if (mouseOrientation.len2() > 1)
+            mouseOrientation.nor();
+
+        x = mouseOrientation.x;
+        y = mouseOrientation.y;
+
+        if (Math.abs(x) > 0.1f)
+            gameObject.yaw(x);
 
         if (Math.abs(y) > 0.1f)
             gameObject.pitch(y);

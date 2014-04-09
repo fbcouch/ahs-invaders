@@ -53,7 +53,7 @@ public abstract class Weapon {
         gameObject.transform.getTranslation(GameObject.tempVector);
         gameObject.transform.getRotation(GameObject.q);
 
-        GameObject bullet = levelScreen.createGameObject(model, 1);
+        GameObject bullet = levelScreen.createGameObject(model, 10);
 
         bullet.rotate(GameObject.q).translate(GameObject.tempVector.add(new Vector3(location).mul(GameObject.q)));
         return bullet;
@@ -61,7 +61,7 @@ public abstract class Weapon {
 
     public static class BasicLaser extends Weapon {
 
-        public float bulletSpeed = 50;
+        public float bulletSpeed = 100;
 
         public BasicLaser(GameObject gameObject, Model model) {
             super(gameObject, model);

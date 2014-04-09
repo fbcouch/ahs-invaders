@@ -4,6 +4,7 @@ import com.ahsgaming.invaders.behaviors.CollideBehavior;
 import com.ahsgaming.invaders.behaviors.DamageBehavior;
 import com.ahsgaming.invaders.behaviors.UpdateBehavior;
 import com.ahsgaming.invaders.screens.LevelScreen;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Matrix4;

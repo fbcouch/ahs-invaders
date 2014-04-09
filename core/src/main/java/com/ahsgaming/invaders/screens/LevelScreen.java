@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.math.Quaternion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.physics.bullet.collision.*;
@@ -67,7 +68,7 @@ public class LevelScreen extends AbstractScreen {
 
     ContactListener contactListener;
 
-    Image reticule;
+    Image reticule, orientator, orient;
     HUD hud;
 
     boolean debugRender = false;
@@ -109,7 +110,7 @@ public class LevelScreen extends AbstractScreen {
             @Override
             public boolean scrolled(int amount) {
 
-                scrollAmount += amount;
+                scrollAmount -= amount;
                 if (scrollAmount > maxScroll) scrollAmount = maxScroll;
                 if (scrollAmount < 0) scrollAmount = 0;
                 return true;
@@ -136,6 +137,8 @@ public class LevelScreen extends AbstractScreen {
         assets.load("spacesphere/spacesphere.obj", Model.class);
         assets.load("missile/missile.g3db", Model.class);
         assets.load("reticule.png", Texture.class);
+        assets.load("orientator.png", Texture.class);
+        assets.load("orientation.png", Texture.class);
         loading = true;
 
         selectionMaterial = new Material();
@@ -187,12 +190,22 @@ public class LevelScreen extends AbstractScreen {
         reticule = new Image(assets.get("reticule.png", Texture.class));
         reticule.setPosition((stage.getWidth() - reticule.getWidth()) / 2, (stage.getHeight() - reticule.getHeight()) / 2);
         reticule.setColor(0.2f, 0.4f, 1.0f, 0.8f);
-        stage.addActor(reticule);
+//        stage.addActor(reticule);
+
+        orientator = new Image(assets.get("orientator.png", Texture.class));
+        orientator.setPosition((stage.getWidth() - orientator.getWidth()) / 2, (stage.getHeight() - orientator.getHeight()) / 2);
+        stage.addActor(orientator);
+        orientator.setColor(new Color(1, 1, 1, 0.5f));
+
+        orient = new Image(assets.get("orientation.png", Texture.class));
+        orient.setPosition((stage.getWidth() - orient.getWidth()) / 2, (stage.getHeight() - orient.getHeight()) / 2);
+        stage.addActor(orient);
+        orient.setColor(new Color(1, 1, 1, 0.5f));
 
         ship = createGameObject(assets.get("ship/ship.obj", Model.class));
         ship.rotate(0, 180, 180).translate(0, 0, 6);
         ship.rigidBody.forceActivationState(Collision.DISABLE_DEACTIVATION);
-        ship.rigidBody.setDamping(0.2f, 0.2f);
+        ship.rigidBody.setDamping(0.2f, 0.5f);
         ShipBehavior shipBehavior = new PlayerShipBehavior(ship);
         ship.damageBehavior = shipBehavior;
         ship.collideBehavior = shipBehavior;
@@ -223,7 +236,7 @@ public class LevelScreen extends AbstractScreen {
         Model invaderModel = assets.get("invader/invader.obj", Model.class);
         for (int x = -5; x < 5; x += 2) {
             for (int z = -8; z <= 0; z += 2) {
-                GameObject invader = createGameObject(invaderModel);
+                GameObject invader = createGameObject(invaderModel, 10);
                 invader.translate(x, 0, z);
                 invaders.add(invader);
                 shipBehavior = new ShipBehavior(invader);
@@ -259,12 +272,15 @@ public class LevelScreen extends AbstractScreen {
             if (Gdx.input.isKeyPressed(Input.Keys.F1)) {
                 camPos.set(0, 2, -7);
                 camTarget.set(0, 1.2f, 0);
+                reticule.remove();
             } else if (Gdx.input.isKeyPressed(Input.Keys.F2)) {
                 camPos.set(0, 0, 0);
                 camTarget.set(0, 0, 1);
+                stage.addActor(reticule);
             } else if (Gdx.input.isKeyPressed(Input.Keys.F3)) {
                 camPos.set(0, 2, 7);
                 camTarget.set(0, 0, 0);
+                reticule.remove();
             }
 
             ship.transform.getTranslation(tempVector);
@@ -280,6 +296,14 @@ public class LevelScreen extends AbstractScreen {
             cam.update();
 
             space.transform.setToTranslation(tempVector);
+
+            // orientator (move to HUD?)
+            Vector2 orientPos = new Vector2(orientator.getX() + orientator.getWidth() * 0.5f, orientator.getY() + orientator.getHeight() * 0.5f);
+            Vector2 offset = new Vector2(((PlayerShipBehavior)ship.updateBehavior).mouseOrientation);
+            offset.x *= -1;
+            offset.scl(orientator.getWidth() * 0.4f);
+            orientPos.add(offset);
+            orient.setPosition(orientPos.x - orient.getWidth() * 0.5f, orientPos.y - orient.getHeight() * 0.5f);
         }
 
         for (int i = 0; i < instances.size; i++) {

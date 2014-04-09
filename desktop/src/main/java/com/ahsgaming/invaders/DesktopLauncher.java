@@ -12,7 +12,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 
-        cfg.title = "Towers of Perdition | ahsgaming.com | (c) 2014 Jami Couch";
+        cfg.title = "AHS Invaders | ahsgaming.com | (c) 2014 Jami Couch";
 //        cfg.useGL30 = true;
         cfg.width = 1920;     // TODO load from config?
         cfg.height = 1050;

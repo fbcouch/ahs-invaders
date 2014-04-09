@@ -22,7 +22,7 @@ public class ShipBehavior extends BaseBehavior implements CollideBehavior, Damag
 
     @Override
     public void onCollide(GameObject other) {
-        other.takeDamage(1);
+//        other.takeDamage(1);
     }
 
     @Override
