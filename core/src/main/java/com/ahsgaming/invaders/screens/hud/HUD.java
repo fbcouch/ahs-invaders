@@ -2,10 +2,13 @@ package com.ahsgaming.invaders.screens.hud;
 
 import com.ahsgaming.invaders.GameObject;
 import com.ahsgaming.invaders.Weapon;
+import com.ahsgaming.invaders.behaviors.PlayerShipBehavior;
 import com.ahsgaming.invaders.behaviors.ShipBehavior;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -25,7 +28,7 @@ public class HUD extends Group {
     GameObject gameObject;
 
     Group lowerRight, lowerLeft;
-    Image laserIcon, missileIcon, hullIcon, shieldIcon, selectedIcon;
+    Image laserIcon, missileIcon, hullIcon, shieldIcon, selectedIcon, orientator, orient;
     PillGroup laserPills, missilePills, hullPills, shieldPills;
 
     Texture[][] weaponPillTextures;
@@ -90,6 +93,16 @@ public class HUD extends Group {
 
         selectedIcon = new Image(new Texture("hud/hud-selector-yellow.png"));
         selectedIcon.setPosition(12, 53);
+
+        orientator = new Image(new Texture("orientator.png"));
+        orientator.setPosition((Gdx.graphics.getWidth() - orientator.getWidth()) / 2, (Gdx.graphics.getHeight() - orientator.getHeight()) / 2);
+        addActor(orientator);
+        orientator.setColor(new Color(1, 1, 1, 0.5f));
+
+        orient = new Image(new Texture("orientation.png"));
+        orient.setPosition((Gdx.graphics.getWidth() - orient.getWidth()) / 2, (Gdx.graphics.getHeight() - orient.getHeight()) / 2);
+        addActor(orient);
+        orient.setColor(new Color(1, 1, 1, 0.5f));
     }
 
     public void setGameObject(GameObject object) {
@@ -120,6 +133,13 @@ public class HUD extends Group {
             hullPills.update(gameObject.damageBehavior.getCurHP() / gameObject.damageBehavior.getMaxHP());
             if (gameObject.damageBehavior.getMaxSP() > 0)
                 shieldPills.update(gameObject.damageBehavior.getCurSP() / gameObject.damageBehavior.getMaxSP());
+
+            // orientator (move to HUD?)
+            Vector2 orientPos = new Vector2(orientator.getX() + orientator.getWidth() * 0.5f, orientator.getY() + orientator.getHeight() * 0.5f);
+            Vector2 offset = new Vector2(((PlayerShipBehavior)gameObject.updateBehavior).mouseOrientation);
+            offset.scl(orientator.getWidth() * 0.4f);
+            orientPos.sub(offset);
+            orient.setPosition(orientPos.x - orient.getWidth() * 0.5f, orientPos.y - orient.getHeight() * 0.5f);
         }
     }
 

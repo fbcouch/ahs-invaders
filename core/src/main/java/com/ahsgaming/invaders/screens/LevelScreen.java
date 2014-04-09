@@ -68,7 +68,7 @@ public class LevelScreen extends AbstractScreen {
 
     ContactListener contactListener;
 
-    Image reticule, orientator, orient;
+    Image reticule;
     HUD hud;
 
     boolean debugRender = false;
@@ -192,16 +192,6 @@ public class LevelScreen extends AbstractScreen {
         reticule.setColor(0.2f, 0.4f, 1.0f, 0.8f);
 //        stage.addActor(reticule);
 
-        orientator = new Image(assets.get("orientator.png", Texture.class));
-        orientator.setPosition((stage.getWidth() - orientator.getWidth()) / 2, (stage.getHeight() - orientator.getHeight()) / 2);
-        stage.addActor(orientator);
-        orientator.setColor(new Color(1, 1, 1, 0.5f));
-
-        orient = new Image(assets.get("orientation.png", Texture.class));
-        orient.setPosition((stage.getWidth() - orient.getWidth()) / 2, (stage.getHeight() - orient.getHeight()) / 2);
-        stage.addActor(orient);
-        orient.setColor(new Color(1, 1, 1, 0.5f));
-
         ship = createGameObject(assets.get("ship/ship.obj", Model.class));
         ship.rotate(0, 180, 180).translate(0, 0, 6);
         ship.rigidBody.forceActivationState(Collision.DISABLE_DEACTIVATION);
@@ -296,12 +286,7 @@ public class LevelScreen extends AbstractScreen {
 
             space.transform.setToTranslation(tempVector);
 
-            // orientator (move to HUD?)
-            Vector2 orientPos = new Vector2(orientator.getX() + orientator.getWidth() * 0.5f, orientator.getY() + orientator.getHeight() * 0.5f);
-            Vector2 offset = new Vector2(((PlayerShipBehavior)ship.updateBehavior).mouseOrientation);
-            offset.scl(orientator.getWidth() * 0.4f);
-            orientPos.sub(offset);
-            orient.setPosition(orientPos.x - orient.getWidth() * 0.5f, orientPos.y - orient.getHeight() * 0.5f);
+
         }
 
         for (int i = 0; i < instances.size; i++) {

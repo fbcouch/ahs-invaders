@@ -61,10 +61,11 @@ public abstract class Weapon {
 
     public static class BasicLaser extends Weapon {
 
-        public float bulletSpeed = 50;
+        public float bulletSpeed = 80;
 
         public BasicLaser(GameObject gameObject, Model model) {
             super(gameObject, model);
+            lifetime = 2;
         }
 
         @Override
