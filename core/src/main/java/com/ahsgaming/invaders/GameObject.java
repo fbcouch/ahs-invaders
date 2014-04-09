@@ -68,6 +68,8 @@ public class GameObject extends ModelInstance {
         motionState = new btDefaultMotionState();
         rigidBody = new btRigidBody(info);
         rigidBody.setMotionState(motionState);
+
+        rigidBody.setDamping(0.2f, 0.5f);
     }
 
     public void update(float delta, LevelScreen levelScreen) {

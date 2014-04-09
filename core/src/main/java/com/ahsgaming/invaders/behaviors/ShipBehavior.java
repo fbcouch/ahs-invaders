@@ -58,13 +58,17 @@ public class ShipBehavior extends BaseBehavior implements CollideBehavior, Damag
     public void update(float delta, LevelScreen levelScreen) {
         tempVector.set(gameObject.rigidBody.getLinearVelocity());
         float speed = tempVector.len();
-        if (speed > maxSpeed * throttle) {
-            tempVector.scl(maxSpeed / speed * throttle);
-            gameObject.rigidBody.setLinearVelocity(tempVector);
-        }
+//        if (speed > maxSpeed * throttle) {
+//            tempVector.scl(maxSpeed / speed * throttle);
+//            gameObject.rigidBody.setLinearVelocity(tempVector);
+//        }
 
         gameObject.transform.getRotation(q);
 
-        gameObject.rigidBody.setGravity(tempVector.set(0, 0, throttle * gameObject.thrust).mul(q));
+        if (speed < maxSpeed * throttle) {
+            gameObject.rigidBody.setGravity(tempVector.set(0, 0, throttle * gameObject.thrust).mul(q));
+        } else {
+            gameObject.rigidBody.setGravity(tempVector.set(0, 0, 0));
+        }
     }
 }

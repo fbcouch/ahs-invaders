@@ -205,7 +205,6 @@ public class LevelScreen extends AbstractScreen {
         ship = createGameObject(assets.get("ship/ship.obj", Model.class));
         ship.rotate(0, 180, 180).translate(0, 0, 6);
         ship.rigidBody.forceActivationState(Collision.DISABLE_DEACTIVATION);
-        ship.rigidBody.setDamping(0.2f, 0.5f);
         ShipBehavior shipBehavior = new PlayerShipBehavior(ship);
         ship.damageBehavior = shipBehavior;
         ship.collideBehavior = shipBehavior;
@@ -236,7 +235,7 @@ public class LevelScreen extends AbstractScreen {
         Model invaderModel = assets.get("invader/invader.obj", Model.class);
         for (int x = -5; x < 5; x += 2) {
             for (int z = -8; z <= 0; z += 2) {
-                GameObject invader = createGameObject(invaderModel, 10);
+                GameObject invader = createGameObject(invaderModel, 1);
                 invader.translate(x, 0, z);
                 invaders.add(invader);
                 shipBehavior = new ShipBehavior(invader);
@@ -300,9 +299,8 @@ public class LevelScreen extends AbstractScreen {
             // orientator (move to HUD?)
             Vector2 orientPos = new Vector2(orientator.getX() + orientator.getWidth() * 0.5f, orientator.getY() + orientator.getHeight() * 0.5f);
             Vector2 offset = new Vector2(((PlayerShipBehavior)ship.updateBehavior).mouseOrientation);
-            offset.x *= -1;
             offset.scl(orientator.getWidth() * 0.4f);
-            orientPos.add(offset);
+            orientPos.sub(offset);
             orient.setPosition(orientPos.x - orient.getWidth() * 0.5f, orientPos.y - orient.getHeight() * 0.5f);
         }
 
