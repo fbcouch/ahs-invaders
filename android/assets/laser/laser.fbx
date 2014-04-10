@@ -10,10 +10,10 @@ FBXHeaderExtension:  {
 		Version: 1000
 		Year: 2014
 		Month: 04
-		Day: 08
-		Hour: 23
-		Minute: 26
-		Second: 35
+		Day: 09
+		Hour: 15
+		Minute: 36
+		Second: 38
 		Millisecond: 0
 	}
 	Creator: "FBX SDK/FBX Plugins build 20070228"
@@ -21,7 +21,7 @@ FBXHeaderExtension:  {
 		FlagPLE: 0
 	}
 }
-CreationTime: "2014-04-08 23:26:35:000"
+CreationTime: "2014-04-09 15:36:38:000"
 Creator: "Blender version 2.66 (sub 1)"
 
 ; Object definitions
@@ -1349,7 +1349,7 @@ Objects:  {
 			Property: "ShadingModel", "KString", "", "Lambert"
 			Property: "MultiLayer", "bool", "",0
 			Property: "EmissiveColor", "ColorRGB", "",0.8000,0.0633,0.0939
-			Property: "EmissiveFactor", "double", "",0.0000
+			Property: "EmissiveFactor", "double", "",1.0000
 			Property: "AmbientColor", "ColorRGB", "",0.0000,0.0000,0.0000
 			Property: "AmbientFactor", "double", "",1.0000
 			Property: "DiffuseColor", "ColorRGB", "",0.8000,0.0633,0.0939
