@@ -137,8 +137,8 @@ public class GameObject extends ModelInstance {
         Matrix4 tr = new Matrix4();
         tr.idt();
         Quaternion quat = new Quaternion();
-        quat.setEulerAngles(x, y, z);
-        tr.set(quat.x, quat.y, quat.z, quat.w);
+        quat.setEulerAngles(y, x, z);
+        tr.set(quat);
         rigidBody.setCenterOfMassTransform(tr);
         return this;
     }
