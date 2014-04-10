@@ -5,6 +5,7 @@ import com.ahsgaming.invaders.screens.LevelScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.bullet.collision.Collision;
 
 /**
 * invaders
@@ -58,7 +59,7 @@ public class PlayerShipBehavior extends ShipBehavior {
 
         float x = (Gdx.graphics.getWidth() * 0.5f - Gdx.input.getX()) / (Gdx.graphics.getWidth() * 0.5f);
 
-        float y = (Gdx.graphics.getHeight() * 0.5f - Gdx.input.getY()) / (Gdx.graphics.getHeight() * 0.5f);
+        float y = - (Gdx.graphics.getHeight() * 0.5f - Gdx.input.getY()) / (Gdx.graphics.getHeight() * 0.5f);
 
         mouseOrientation.set(x,y);
         if (mouseOrientation.len2() > 1)

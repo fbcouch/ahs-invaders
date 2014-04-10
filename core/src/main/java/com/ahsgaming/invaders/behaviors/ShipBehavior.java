@@ -2,6 +2,7 @@ package com.ahsgaming.invaders.behaviors;
 
 import com.ahsgaming.invaders.GameObject;
 import com.ahsgaming.invaders.screens.LevelScreen;
+import com.badlogic.gdx.physics.bullet.collision.Collision;
 
 /**
 * invaders
@@ -18,6 +19,7 @@ public class ShipBehavior extends BaseBehavior implements CollideBehavior, Damag
 
     public ShipBehavior(GameObject gameObject) {
         super(gameObject);
+        gameObject.rigidBody.forceActivationState(Collision.DISABLE_DEACTIVATION);
     }
 
     @Override

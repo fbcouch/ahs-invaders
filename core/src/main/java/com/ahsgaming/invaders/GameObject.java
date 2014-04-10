@@ -34,7 +34,7 @@ public class GameObject extends ModelInstance {
     boolean remove;
 
     int mass = 1;
-    public float thrust = 10, rollThrust = 0.5f, pitchThrust = 0.5f, yawThrust = 0.5f;
+    public float thrust = 10, rollThrust = 0.3f, pitchThrust = 0.5f, yawThrust = 0.5f;
 
     static Vector3 tempVector = new Vector3();
     static Quaternion q = new Quaternion();
@@ -105,6 +105,7 @@ public class GameObject extends ModelInstance {
 
     public void pitch(float amount) {
         transform.getRotation(q);
+        q.nor();
         tempVector.set(amount * pitchThrust, 0, 0).mul(q);
         rigidBody.applyTorque(tempVector);
     }
@@ -117,6 +118,7 @@ public class GameObject extends ModelInstance {
 
     public void yaw(float amount) {
         transform.getRotation(q);
+        q.nor();
         tempVector.set(0, amount * yawThrust, 0).mul(q);
         rigidBody.applyTorque(tempVector);
     }

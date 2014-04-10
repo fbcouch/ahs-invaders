@@ -53,7 +53,7 @@ public abstract class Weapon {
         gameObject.transform.getTranslation(GameObject.tempVector);
         gameObject.transform.getRotation(GameObject.q);
 
-        GameObject bullet = levelScreen.createGameObject(model, 10);
+        GameObject bullet = levelScreen.createGameObject(model, 1);
 
         bullet.rotate(GameObject.q).translate(GameObject.tempVector.add(new Vector3(location).mul(GameObject.q)));
         return bullet;
