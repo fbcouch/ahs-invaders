@@ -1,4 +1,4 @@
-# Towers of Perdition #
+# AHS Invaders #
 
 **An AHS Gaming Production**
 
@@ -16,7 +16,7 @@ This game requires at least Java 1.6, so you may need to update your Java instal
 Otherwise, it should just run when you double-click the icon.
 Alternatively, you may use the following command in a CLI:
 
-	java -jar TowersOfPerdition.jar
+	java -jar ahs-invaders.jar
 
 The latest information and builds of the game can be found at:
 
@@ -51,46 +51,8 @@ See New BSD License at
 
 ## ARTWORK ##
 
-The hexagon tiles were adapted from art by Kenney, Inc. licensed as CC0.
-
-	http://kenney.nl/
-
 Several icons used were licensed from game-icons.net:
 
-- "Archery Target Icon" by Lorc, CC-BY
-
-- "Checked Shield Icon" by Lorc, CC-BY
-
-- "Crossed Swords Icon" by Lorc, CC-BY
-
-- "Flying Flag Icon" by Lorc, CC-BY
-
-- "Gear Hammer Icon" by Lorc, CC-BY
-
-- "Hazard Sign Icon" by Lorc, CC-BY
-
-- "Hospital Cross Icon" by Lorc, CC-BY
-
-- "Invisible Icon" by Delapouite, CC-BY
-
-- "King Icon" by Lorc, CC-BY
-
-- "Radial Balance Icon" by Lorc, CC-BY
-
 - "Reticule Icon" by Lorc, CC-BY
-
-- "Rune Sword Icon" by Lorc, CC-BY
-
-- "Skull Crossed Bones Icon" by Lorc, CC-BY
-
-- "Sparta Icon" by Lorc, CC-BY
-
-- "Tank Icon" by Lorc, CC-BY
-
-- "Tinker Icon" by Lorc, CC-BY
-
-- "Tread Icon" by Lorc, CC-BY
-
-- "Walking Boot Icon" by Lorc, CC-BY
 
 All other art assets are original creations by Jami Couch and Steven Hochman and are licensed as CC-BY-NC-SA 4.0.
