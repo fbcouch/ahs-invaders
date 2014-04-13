@@ -226,7 +226,7 @@ public class LevelScreen extends AbstractScreen {
 //        for (int x = -5; x < 5; x += 10) {
 //            for (int z = -8; z <= 0; z += 2) {
                 GameObject invader = createGameObject(invaderModel, 1);
-                invader.rotate(90, 90, 0);
+                invader.rotate(0, 0, 0);
                 invader.translate(0, 0, 0);
                 invaders.add(invader);
                 shipBehavior = new BasicAIShipBehavior(invader);
