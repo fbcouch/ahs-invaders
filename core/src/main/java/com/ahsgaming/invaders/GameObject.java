@@ -124,7 +124,7 @@ public class GameObject extends ModelInstance {
     }
 
     public GameObject rotate(Quaternion quaternion) {
-        rotate(quaternion.getYaw(), quaternion.getPitch(), quaternion.getRoll());
+        rotate(quaternion.getPitch(), quaternion.getYaw(), quaternion.getRoll());
         return this;
     }
 

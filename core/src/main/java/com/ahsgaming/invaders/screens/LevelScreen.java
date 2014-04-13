@@ -211,31 +211,20 @@ public class LevelScreen extends AbstractScreen {
 
         ship.curWeapon = 0;
 
-//        Model blockModel = assets.get("block/block.obj", Model.class);
-//        for (int x = -5; x < 5; x += 2) {
-//            GameObject block = createGameObject(blockModel);
-//            block.translate(x, 0, 3);
-//            blocks.add(block);
-//            shipBehavior = new ShipBehavior(block);
-//            block.damageBehavior = shipBehavior;
-//            block.collideBehavior = shipBehavior;
-//            block.updateBehavior = shipBehavior;
-//        }
-
-        Model invaderModel = assets.get("ship/ship.obj", Model.class);
-//        for (int x = -5; x < 5; x += 10) {
-//            for (int z = -8; z <= 0; z += 2) {
+        Model invaderModel = assets.get("invader/invader.obj", Model.class);
+        for (int x = -5; x < 5; x += 2) {
+            for (int z = -8; z <= 0; z += 2) {
                 GameObject invader = createGameObject(invaderModel, 1);
                 invader.rotate(0, 0, 0);
-                invader.translate(0, 0, 0);
+                invader.translate(x, 0, z);
                 invaders.add(invader);
                 shipBehavior = new BasicAIShipBehavior(invader);
                 invader.damageBehavior = shipBehavior;
                 invader.collideBehavior = shipBehavior;
                 invader.updateBehavior = shipBehavior;
                 invader.rigidBody.setAngularVelocity(new Vector3(0, 0f, 0));
-//            }
-//        }
+            }
+        }
 
         space = new ModelInstance(assets.get("spacesphere/spacesphere.obj", Model.class));
         space.transform.scale(3, 3, 3);
@@ -309,7 +298,7 @@ public class LevelScreen extends AbstractScreen {
         for (final GameObject instance : instances) {
             instance.update(delta, this);
             modelBatch.render(instance, environment);
-            if (instance.updateBehavior instanceof BasicAIShipBehavior) {
+            if (instance.updateBehavior instanceof BasicAIShipBehavior && debugRender) {
                 modelBatch.render(((BasicAIShipBehavior)instance.updateBehavior).targetBox, environment);
             }
             visibleCount++;

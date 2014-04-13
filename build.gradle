@@ -6,7 +6,7 @@ buildscript {
 allprojects {
     apply plugin: 'idea'
 
-    version = "0.2"
+    version = "0.2.1"
     ext.appName = "ahs-invaders"
     ext.gdxVersion = "1.0-SNAPSHOT" //"0.9.9" // Use "1.0-SNAPSHOT" for nightly build
     ext.kryonetVersion = "2.21"
